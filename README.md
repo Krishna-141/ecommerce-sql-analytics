@@ -54,15 +54,3 @@ Before any analysis, I ran a structured audit against the raw tables (full detai
 
 **Limitation:** the RFM frequency score is a weaker signal on this dataset than usual — since ~97% of customers placed only one order, `NTILE(5)` still splits them into 5 equal-sized buckets by row order, so a frequency score of 5 doesn't reliably mean a customer ordered multiple times, just that they fell in the top slice of an almost entirely tied distribution. As a result, the 15,062-customer "At Risk (High Value)" segment (avg. spend R$309.95) is best read as *high-value single-purchase customers who haven't returned*, not lapsed repeat buyers — consistent with the near-zero retention curve above.
 
-## How to Run This Locally
-
-1. Clone the repo and start Postgres:
-   ```powershell
-   git clone <your-repo-url>
-   cd ecommerce-sql-analytics
-   docker compose up -d
-   ```
-2. Load the Olist CSVs into Postgres (see `sql/` setup notes) — server: `localhost:5432`, database: `olist`, user/password: `postgres`/`postgres`.
-3. Run any query in `sql/` against the database using DBeaver, `psql`, or your tool of choice.
-4. Open Power BI Desktop → **Get Data → PostgreSQL database** → connect with the same credentials to explore or rebuild the dashboard.
-5. (Optional) Run `notebooks/visualizations.ipynb` for the RFM scatter and cohort retention heatmap.
